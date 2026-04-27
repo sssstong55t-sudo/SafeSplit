@@ -729,43 +729,6 @@ not normal inference delay.
 
 ---
 
-# Possible Questions and Prepared Answers
-
-## Q1: Are you changing the original SafeSplit defense?
-
-No. The original detection logic remains the same: DCT frequency analysis, rotational analysis, and rollback. The extension only reduces the subset of backbone parameters used for analysis.
-
-## Q2: Why should high-energy layers contain backdoor signals?
-
-Because backdoor injection usually requires changing the model behavior toward a conflicting target. Such changes may produce stronger update energy in some layers. Energy-guided selection is a heuristic to capture these informative layers.
-
-## Q3: What if the attacker hides the backdoor in low-energy layers?
-
-That is a limitation. This is why the project compares energy-guided selection with full SafeSplit and random selection. If energy-guided selection fails under some settings, that result is still meaningful because it identifies the boundary of compact analysis.
-
-## Q4: Does this reduce training time?
-
-Not directly. The training loop is mostly unchanged. The expected improvement is in defense-side analysis overhead: DCT computation, rotational feature computation, and distance scoring.
-
-## Q5: Does channel sampling affect model accuracy?
-
-It should not directly affect MA because the model training itself is not changed. It only affects the defense decision. However, if sampling misses malicious signals, rollback may become less accurate, which could indirectly affect BA or MA.
-
-## Q6: What is the strongest expected result?
-
-The strongest result would be:
-
-```text
-Energy-Guided Compact SafeSplit achieves similar BA/ASR and MA as full SafeSplit
-while analyzing much fewer parameters and reducing defense-side analysis time.
-```
-
-## Q7: What if the extension does not outperform full SafeSplit?
-
-It is not expected to outperform full SafeSplit in security. Full SafeSplit is the upper-bound defense. The goal is to approach full SafeSplit's security with lower overhead.
-
----
-
 # Current Implementation Checklist
 
 ## Already Implemented
